@@ -1,2 +1,4 @@
 python -m venv venv
 source venv/bin/activate
+
+python scripts/create_indexes.py
