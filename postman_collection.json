@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "40abf21f-cd76-4d2d-8bb4-fb5e0bcbe8b3",
+		"name": "IMDb Content System API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Checks the health status of the application."
+			},
+			"response": []
+		},
+		{
+			"name": "Upload CSV",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "",
+							"description": "Select the sample movies.csv file to upload."
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/upload",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"upload"
+					]
+				},
+				"description": "Uploads a CSV file containing movie data. The file must have headers: title, language, rating, release_date."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/movies?page=1&limit=10&sort_by=release_date&order=asc",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "Page number (default: 1)"
+						},
+						{
+							"key": "limit",
+							"value": "10",
+							"description": "Number of items per page (default: 10)"
+						},
+						{
+							"key": "year",
+							"value": "2022",
+							"disabled": true,
+							"description": "Filter by release year (e.g. 2022)"
+						},
+						{
+							"key": "language",
+							"value": "English",
+							"disabled": true,
+							"description": "Filter by language (e.g. English)"
+						},
+						{
+							"key": "sort_by",
+							"value": "release_date",
+							"description": "Sort field: title, release_date, rating (default: release_date)"
+						},
+						{
+							"key": "order",
+							"value": "asc",
+							"description": "Sort order: asc, desc (default: asc)"
+						}
+					]
+				},
+				"description": "Retrieve movies with pagination, filtering (year, language), and sorting options."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:5000",
+			"type": "string"
+		}
+	]
+}

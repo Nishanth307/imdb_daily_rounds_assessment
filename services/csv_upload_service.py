@@ -33,7 +33,7 @@ class CsvUploadService:
     def process_csv(self, file_path):
         try:
             batch = []
-            for movie in CsvParser.movie_parser(file_path):
+            for movie in CsvParser.parse(file_path):
                 batch.append(movie)
                 if len(batch) == Config.BATCH_SIZE:
                     self.movie_repository.bulk_insert(batch)

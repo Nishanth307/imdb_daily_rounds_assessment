@@ -1,6 +1,8 @@
 from repositories.movie_repository import MovieRepository
+from utils.csv_parser import CsvParser
 from utils.response import success_response
 from utils.exceptions import BadRequestException
+
 
 class MovieService:
     def __init__(self):
@@ -16,7 +18,7 @@ class MovieService:
         if year:
             query["release_year"] = int(year)
         if language:
-            query["language"] = language
+            query["languages"] = language
 
         sort_order = 1 if order == "asc" else -1
         skip = (page - 1) * limit
@@ -32,6 +34,13 @@ class MovieService:
 
         for movie in movies:
             movie["_id"] = str(movie["_id"])
+            release_date = movie.get("release_date")
+            if release_date:
+                movie["release_date"] = release_date.strftime("%Y-%m-%d")
+            if not movie.get("languages"):
+                mapped = CsvParser.map_original_language(movie.get("original_language"))
+                if mapped:
+                    movie["languages"] = [mapped]
 
         return success_response(
             data={"page": page, "limit": limit, "total": total, "movies": movies}

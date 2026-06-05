@@ -3,7 +3,7 @@ from utils.exceptions import AppException
 
 def register_error_handlers(app):
 
-    @app.handler(AppException)
+    @app.errorhandler(AppException)
     def handle_app_exception(error):
         return jsonify({
             "success": False,

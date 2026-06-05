@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+
 @dataclass
 class Movie:
     title: str
@@ -16,5 +17,3 @@ class Movie:
     genre_id: int
     vote_count: int
     vote_average: float
-
-

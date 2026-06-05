@@ -1,4 +1,4 @@
-def tes_get_movies(client):
+def test_get_movies(client):
     response = client.get("/api/v1/movies")
     assert response.status_code == 200
     data = response.get_json()
