@@ -141,7 +141,7 @@ imdb-content-system/
 ### Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Nishanth307/imdb_daily_rounds_assessment.git
 cd imdb-content-system
 ```
 
@@ -190,6 +190,29 @@ python app.py
 
 ## API Documentation
 
+### Health Check
+
+```http
+GET /
+```
+
+Response:
+
+```json
+{
+  "status": "running",
+  "service": "imdb-content-system"
+}
+```
+
+cURL Command:
+
+```bash
+curl -X GET http://127.0.0.1:5000/
+```
+
+---
+
 ### Upload CSV
 
 ```http
@@ -209,6 +232,12 @@ Response:
   "success": true,
   "message": "CSV uploaded successfully"
 }
+```
+
+cURL Command:
+
+```bash
+curl -X POST -F "file=@sample_movies.csv" http://127.0.0.1:5000/api/v1/upload
 ```
 
 ---
@@ -234,6 +263,12 @@ Example:
 
 ```http
 GET /api/v1/movies?page=1&limit=10&language=English&year=2024&sort_by=rating&order=desc
+```
+
+cURL Command:
+
+```bash
+curl -X GET "http://127.0.0.1:5000/api/v1/movies?page=1&limit=10&language=English&year=2024&sort_by=rating&order=desc"
 ```
 
 ---

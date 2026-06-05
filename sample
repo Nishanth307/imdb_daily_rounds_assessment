@@ -2,4 +2,5 @@ python -m venv venv
 source venv/bin/activate 
 python app.py
 
+docker compose up -d 
 python scripts/create_indexes.py
