@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from config.database import db
 
 

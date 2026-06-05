@@ -17,13 +17,17 @@ class MovieService:
         if year:
             query["release_year"] = int(year)
         if language:
-            languages_list = list(set([
-                language,
-                language.lower(),
-                language.upper(),
-                language.capitalize(),
-                language.title()
-            ]))
+            languages_list = list(
+                set(
+                    [
+                        language,
+                        language.lower(),
+                        language.upper(),
+                        language.capitalize(),
+                        language.title(),
+                    ]
+                )
+            )
             query["languages"] = {"$in": languages_list}
 
         sort_order = 1 if order == "asc" else -1

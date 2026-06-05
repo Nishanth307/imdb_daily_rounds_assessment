@@ -27,7 +27,7 @@ def test_upload_csv_various_languages_formats(client):
         "title,language,rating,release_date\n"
         "MovieList,\"['english','hindi']\",8.5,2022-01-01\n"
         "MovieSingle,Hindi,9.0,2023-02-02\n"
-        "MovieComma,\"Spanish, French\",7.5,2021-05-05"
+        'MovieComma,"Spanish, French",7.5,2021-05-05'
     )
 
     response = client.post(
@@ -44,7 +44,9 @@ def test_upload_csv_various_languages_formats(client):
     assert data["success"] is True
 
     # Query the movies and verify languages list for MovieList (2022)
-    response = client.get("/api/v1/movies?year=2200") # Wait, MovieList is 2022. Let's query year=2022
+    response = client.get(
+        "/api/v1/movies?year=2200"
+    )  # Wait, MovieList is 2022. Let's query year=2022
     response = client.get("/api/v1/movies?year=2022&limit=100")
     assert response.status_code == 200
     movies_2022 = response.get_json()["data"]["movies"]

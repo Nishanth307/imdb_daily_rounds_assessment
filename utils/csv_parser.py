@@ -7,8 +7,6 @@ from utils.exceptions import BadRequestException
 
 
 class CsvParser:
-
-
     @staticmethod
     def parse_date(date_str):
         if not date_str:
@@ -68,7 +66,6 @@ class CsvParser:
     def transform_row(cls, row):
 
         release_date = cls.parse_date(row.get("release_date"))
-        languages_raw = row.get("languages") or row.get("language")
 
         return {
             "budget": cls.parse_int(row.get("budget")),
@@ -86,7 +83,9 @@ class CsvParser:
             "vote_count": cls.parse_int(row.get("vote_count")),
             "production_company_id": cls.parse_int(row.get("production_company_id")),
             "genre_id": cls.parse_int(row.get("genre_id")),
-            "languages": row.get("languages").split(",") if row.get("languages") else [],
+            "languages": row.get("languages").split(",")
+            if row.get("languages")
+            else [],
         }
 
     @classmethod
