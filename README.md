@@ -240,6 +240,28 @@ cURL Command:
 curl -X POST -F "file=@sample_movies.csv" http://127.0.0.1:5000/api/v1/upload
 ```
 
+#### Upload via Postman
+
+To upload a CSV file using Postman, you’ll want to send a POST request with `multipart/form-data`. Here’s the step‑by‑step:
+
+**🛠️ Steps in Postman**
+
+1. Open Postman and create a new request.
+2. Set the method to **POST**.
+3. Enter your endpoint URL (for example):
+   `http://localhost:5000/api/v1/upload` (adjust if your Flask app is running on a different port or path).
+4. Go to the **Body** tab.
+5. Select **form-data**.
+6. Add a new key:
+   * **Key**: `file`
+   * On the right side, change the type from **Text** to **File**.
+   * Click **Choose File** and select your `movies.csv`.
+7. If your API expects other fields (like `content_type`), add them as additional form-data keys:
+   * **Key**: `content_type`
+   * **Value**: `multipart/form-data`
+   * **Type**: **Text**
+8. Hit **Send**.
+
 ---
 
 ### Get Movies
