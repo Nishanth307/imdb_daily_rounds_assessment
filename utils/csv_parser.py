@@ -86,7 +86,7 @@ class CsvParser:
             "vote_count": cls.parse_int(row.get("vote_count")),
             "production_company_id": cls.parse_int(row.get("production_company_id")),
             "genre_id": cls.parse_int(row.get("genre_id")),
-            "languages": cls.parse_languages(languages_raw),
+            "languages": row.get("languages").split(",") if row.get("languages") else [],
         }
 
     @classmethod
