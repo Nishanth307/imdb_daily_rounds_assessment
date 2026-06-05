@@ -7,40 +7,7 @@ from utils.exceptions import BadRequestException
 
 
 class CsvParser:
-    LANGUAGE_NAMES = {
-        "en": "English",
-        "fr": "Français",
-        "ja": "日本語",
-        "it": "Italiano",
-        "es": "Español",
-        "ru": "Pусский",
-        "de": "Deutsch",
-        "fi": "suomi",
-        "tr": "Türkçe",
-        "sv": "svenska",
-        "pl": "Polski",
-        "nl": "Nederlands",
-        "el": "ελληνικά",
-        "hi": "हिन्दी",
-        "pt": "Português",
-        "ko": "한국어",
-        "zh": "普通话",
-        "ar": "العربية",
-        "da": "Dansk",
-        "no": "Norsk",
-        "cs": "Český",
-        "hu": "Magyar",
-        "th": "ภาษาไทย",
-        "he": "עִבְרִית",
-        "cn": "普通话",
-        "xx": "No Language",
-    }
 
-    @staticmethod
-    def map_original_language(code):
-        if not code:
-            return None
-        return CsvParser.LANGUAGE_NAMES.get(code.strip().lower())
 
     @staticmethod
     def parse_date(date_str):
@@ -76,38 +43,37 @@ class CsvParser:
         if not value:
             return []
 
-        value = value.strip()
+        if isinstance(value, list):
+            return [str(item).strip() for item in value if item]
 
-        try:
-            parsed = ast.literal_eval(value)
-            if isinstance(parsed, list):
-                return parsed
-            if isinstance(parsed, str):
-                return [parsed]
-        except Exception:
-            pass
+        value_str = str(value).strip()
+        if not value_str:
+            return []
 
-        if "|" in value:
-            return [lang.strip() for lang in value.split("|") if lang.strip()]
+        # Check if it looks like a list representation (e.g. ['english','hindi'] or ["english"])
+        if value_str.startswith("[") and value_str.endswith("]"):
+            try:
+                parsed = ast.literal_eval(value_str)
+                if isinstance(parsed, list):
+                    return [str(item).strip() for item in parsed if item]
+                elif parsed:
+                    return [str(parsed).strip()]
+            except Exception:
+                pass
 
-        return [value]
+        # Fallback for plain string (e.g., "English" or "English, Hindi")
+        return [item.strip() for item in value_str.split(",") if item.strip()]
 
     @classmethod
     def transform_row(cls, row):
 
         release_date = cls.parse_date(row.get("release_date"))
-        original_language = row.get("original_language")
-        languages = cls.parse_languages(row.get("languages") or row.get("language"))
-
-        if not languages and original_language:
-            mapped = cls.map_original_language(original_language)
-            if mapped:
-                languages = [mapped]
+        languages_raw = row.get("languages") or row.get("language")
 
         return {
             "budget": cls.parse_int(row.get("budget")),
             "homepage": (row.get("homepage") or None),
-            "original_language": original_language,
+            "original_language": row.get("original_language"),
             "original_title": row.get("original_title"),
             "overview": row.get("overview"),
             "release_date": release_date,
@@ -120,7 +86,7 @@ class CsvParser:
             "vote_count": cls.parse_int(row.get("vote_count")),
             "production_company_id": cls.parse_int(row.get("production_company_id")),
             "genre_id": cls.parse_int(row.get("genre_id")),
-            "languages": languages,
+            "languages": cls.parse_languages(languages_raw),
         }
 
     @classmethod
