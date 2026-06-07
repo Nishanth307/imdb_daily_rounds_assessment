@@ -2,5 +2,4 @@ flask
 pymongo
 python-dotenv
 pytest
-python3-pytest
 python-dateutil
